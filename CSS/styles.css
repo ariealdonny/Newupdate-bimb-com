@@ -1,1 +1,322 @@
+html,
 
+
+/* Background tetap di tempat */
+body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  background-image: url('../images/bimb-background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Ini yang membuat background tetap di tempat */
+  color: white;
+  min-height: 100vh;
+}
+
+
+
+.hero-section  ,.forgot-link-container{
+  text-align: center;
+  margin: 50px auto;
+}
+
+.hero-section h5 {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  /* Tambahkan padding kiri dan kanan */
+  padding: 1px 1px;
+  /* Agar teks tidak pindah baris, kita atur agar tidak wrap */
+  white-space: nowrap;
+  /* Jika ingin teks memanjang dan container tidak melebihi lebar layar, kita bisa atur box-sizing */
+  box-sizing: border-box;
+  /* Lebar penuh */
+  width: 20%;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
+
+.hero-section {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.hero-section h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 8px 20px;
+  line-height: 1.1;
+}
+
+.hero-section h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 20px;
+  line-height: 1.1;
+}
+
+.hero-section h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 20px;
+  line-height: 1.1;
+}
+
+.hero-section h5{
+  font-size: 14px;
+  font-weight: 800;
+  margin: 0 0 8px 20px;
+  line-height: 2;
+}
+
+.hero-section .highlight {
+  color: #00cc66;
+  display: block;
+  font-weight: 700;
+}
+
+.login-section {
+  margin-top: 30px;
+}
+
+
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 2px;
+  margin: 20px 20px; /* Space 20px di kiri dan kanan */
+}
+
+.input-container .user-photo {
+  width: 30px;
+  height: 30px;
+  border-radius: none; /* Diaktifkan kembali */
+  overflow: hidden;
+  border: 0px solid #dcdcdc;
+  display: flex; /* Tambahkan ini */
+  justify-content: center; /* Pusatkan horizontal */
+  align-items: center; /* Pusatkan vertikal */
+}
+
+.input-container .user-photo img {
+  width: 74%; 
+  height: 74%;
+  object-fit: cover; /* Ini akan memastikan gambar tidak terdistorsi */
+}
+
+.input-container input {
+  border: none;
+  outline: none;
+  padding: 10px 10px;
+  border-radius: 30px;
+  width: 170px;
+  font-size: 14px;
+}
+
+.login-button {
+  background-color: #d62828;
+  border: none;
+  border-radius: 60px;
+  padding: 10px 25px;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #a81f1f;
+}
+
+.forgot-link-container {
+  margin-top: 15px;
+}
+
+.forgot-link {
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+  background: rgba(214, 40, 40, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 25px auto;
+  width: 98%;
+}
+
+.action-item {
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  color: white;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.photo-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-container img {
+  height: 68px;
+  margin-bottom: 7px;
+}
+
+.action-item p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.logo img {
+  height: 30px;
+}
+
+//hamburger-menu {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  position: fixed;
+  top: 1px;
+  right: 4px;
+  z-index: 1000;
+}
+
+
+
+    /* =================== */
+    /* HEADER MODIFICATIONS */
+    /* =================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: all 0.5s ease;
+      background: transparent;
+    }
+    
+    .header::before {
+    background-image: url('../images/bimb-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+    
+    .header {
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.header.scrolled {
+  background: rgba(10, 15, 30, 0.5);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+    
+  
+    
+    /* Hamburger Menu */
+    .hamburger-menu {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 80px;
+      height: 21px;
+      padding: 0;
+      z-index: 1001;
+    }
+    
+    .hamburger-menu span {
+      display: block;
+      width: 30px;
+      height: 3px;
+      background: white;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger-menu.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger-menu.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -290px;
+      width: 250px;
+      height: 100vh;
+      background: white;
+      backdrop-filter: white(10px);
+      display: flex;
+      flex-direction: column;
+      padding: 1000px 20px 20px;
+      transition: right 0.5s ease;
+      z-index: 999;
+    }
+    
+    .mobile-nav.active {
+      right: 0;
+    }
+    
+    .mobile-nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 15px 0;
+      border-bottom: 1px  white(255, 255, 255, 0.1);
+      transition: color 0.3s;
+    }
+    
+    .mobile-nav a:hover {
+      color: black;
+    }
+    
+    /* Space for header */
+    main {
+      padding-top: 60px;
+    }
